@@ -1,0 +1,22 @@
+#!/bin/bash
+
+TEST=$(systemctl | grep openvpn | head -n 1 | awk -F 'OpenVPN' '{print $1}' | awk -F 'loaded active ' '{print $2}')
+#echo $TEST
+PID=$(pidof openvpn)
+#echo $PID
+
+main ()
+        {
+
+        if [[ $TEST == *running* ]]
+        then
+                echo "VPN is online, PID: $PID"
+                exit 0
+        else
+                echo "VPN is offline."
+                exit 2
+        fi
+
+        }
+
+main;
